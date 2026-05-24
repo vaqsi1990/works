@@ -1,0 +1,21 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: works-journal-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: works
+      POSTGRES_PASSWORD: works
+      POSTGRES_DB: works
+    ports:
+      - '5432:5432'
+    volumes:
+      - works_pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U works -d works']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  works_pg_data:
