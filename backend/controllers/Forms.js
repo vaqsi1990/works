@@ -6,15 +6,15 @@ import prisma from '../db.js'
 
 const entrySchema = z.object({
 
-  workDate: z.string().min(1, 'Date is required'),
+  workDate: z.string().min(1, 'Укажите дату выполнения'),
 
-  workName: z.string().min(1, 'Work name is required'),
+  workName: z.string().min(1, 'Выберите вид работ из справочника'),
 
-  volume: z.coerce.number().positive('Volume must be > 0'),
+  volume: z.coerce.number().positive('Объём должен быть больше 0'),
 
-  unit: z.string().min(1, 'Unit is required'),
+  unit: z.string().min(1, 'Укажите единицу измерения'),
 
-  performer: z.string().min(1, 'Performer is required'),
+  performer: z.string().min(1, 'Укажите исполнителя'),
 
 })
 
@@ -88,7 +88,7 @@ function parseDateOnly(value) {
 
   if (Number.isNaN(d.getTime())) {
 
-    throw new Error('Invalid date format')
+    throw new Error('Неверный формат даты')
 
   }
 
@@ -112,7 +112,7 @@ function parseDateStart(value) {
 
   const match = String(value).match(/^(\d{4})-(\d{2})-(\d{2})$/)
 
-  if (!match) throw new Error('Invalid date format')
+  if (!match) throw new Error('Неверный формат даты')
 
   const [, y, m, d] = match
 
@@ -126,7 +126,7 @@ function parseDateEnd(value) {
 
   const match = String(value).match(/^(\d{4})-(\d{2})-(\d{2})$/)
 
-  if (!match) throw new Error('Invalid date format')
+  if (!match) throw new Error('Неверный формат даты')
 
   const [, y, m, d] = match
 
@@ -150,7 +150,7 @@ export async function getWorkTypes(req, res) {
 
   } catch (error) {
 
-    res.status(500).json({ error: 'Failed to fetch work types' })
+    res.status(500).json({ error: 'Не удалось загрузить справочник видов работ' })
 
   }
 
@@ -158,7 +158,7 @@ export async function getWorkTypes(req, res) {
 
 
 
-export async function gelAllWorks(req, res) {
+export async function getAllWorks(req, res) {
 
   try {
 
@@ -214,7 +214,7 @@ export async function gelAllWorks(req, res) {
 
   } catch (error) {
 
-    res.status(500).json({ error: 'Failed to fetch works' })
+    res.status(500).json({ error: 'Не удалось загрузить журнал' })
 
   }
 
@@ -232,7 +232,7 @@ export async function createWork(req, res) {
 
       return res.status(400).json({
 
-        error: 'Validation failed',
+        error: 'Ошибка валидации',
 
         details: parsed.error.flatten().fieldErrors,
 
@@ -284,7 +284,7 @@ export async function createWork(req, res) {
 
   } catch (error) {
 
-    res.status(500).json({ error: 'Failed to create work' })
+    res.status(500).json({ error: 'Не удалось создать запись' })
 
   }
 
@@ -300,7 +300,7 @@ export async function updateWork(req, res) {
 
     if (Number.isNaN(id)) {
 
-      return res.status(400).json({ error: 'Invalid id' })
+      return res.status(400).json({ error: 'Некорректный идентификатор' })
 
     }
 
@@ -312,7 +312,7 @@ export async function updateWork(req, res) {
 
       return res.status(400).json({
 
-        error: 'Validation failed',
+        error: 'Ошибка валидации',
 
         details: parsed.error.flatten().fieldErrors,
 
@@ -366,7 +366,7 @@ export async function updateWork(req, res) {
 
   } catch (error) {
 
-    res.status(500).json({ error: 'Failed to update work' })
+    res.status(500).json({ error: 'Не удалось обновить запись' })
 
   }
 
@@ -382,7 +382,7 @@ export async function deleteWork(req, res) {
 
     if (Number.isNaN(id)) {
 
-      return res.status(400).json({ error: 'Invalid id' })
+      return res.status(400).json({ error: 'Некорректный идентификатор' })
 
     }
 
@@ -394,7 +394,7 @@ export async function deleteWork(req, res) {
 
   } catch (error) {
 
-    res.status(500).json({ error: 'Failed to delete work' })
+    res.status(500).json({ error: 'Не удалось удалить запись' })
 
   }
 

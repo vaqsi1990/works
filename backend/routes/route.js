@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import {
-  gelAllWorks,
+  getAllWorks,
   getWorkTypes,
   createWork,
   updateWork,
@@ -10,7 +10,7 @@ import {
 const router = Router();
 
 router.get('/types', getWorkTypes);
-router.get('/', gelAllWorks);
+router.get('/', getAllWorks);
 router.post('/add', createWork);
 router.put('/:id', updateWork);
 router.delete('/:id', deleteWork);

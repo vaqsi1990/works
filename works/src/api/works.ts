@@ -12,7 +12,7 @@ export type WorkFilters = {
 
 export async function fetchWorkTypes(): Promise<WorkType[]> {
   const res = await fetch(`${API}/types`, { cache: 'no-store' })
-  if (!res.ok) throw new Error('Failed to load work types')
+  if (!res.ok) throw new Error('Не удалось загрузить справочник видов работ')
   return res.json()
 }
 
@@ -26,7 +26,7 @@ export async function fetchWorks(filters: WorkFilters = {}): Promise<WorkEntry[]
   const query = params.toString()
   const url = query ? `${API}?${query}` : API
   const res = await fetch(url, { cache: 'no-store' })
-  if (!res.ok) throw new Error('Failed to load works')
+  if (!res.ok) throw new Error('Не удалось загрузить журнал')
   const data: WorkEntry[] = await res.json()
   const filtered = filterWorksByDate(data, filters)
   const sort = filters.sort ?? 'desc'
@@ -50,7 +50,7 @@ export async function createWork(data: WorkEntryInput): Promise<WorkEntry> {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(toApiBody(data)),
   })
-  if (!res.ok) throw new Error('Failed to create work')
+  if (!res.ok) throw new Error('Не удалось создать запись')
   return res.json()
 }
 
@@ -63,11 +63,11 @@ export async function updateWork(
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(toApiBody(data)),
   })
-  if (!res.ok) throw new Error('Failed to update work')
+  if (!res.ok) throw new Error('Не удалось обновить запись')
   return res.json()
 }
 
 export async function deleteWork(id: number): Promise<void> {
   const res = await fetch(`${API}/${id}`, { method: 'DELETE' })
-  if (!res.ok) throw new Error('Failed to delete work')
+  if (!res.ok) throw new Error('Не удалось удалить запись')
 }
